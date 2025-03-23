@@ -112,6 +112,14 @@ export function Chat() {
     ? '∞' 
     : Math.max(0, FREE_DAILY_LIMIT - dailyQuestionsCount);
 
+  const setUser = useAuthStore((state) => state.setUser);
+  
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    setUser(null);
+    navigate('/');
+  };
+
   return (
     <AuthGuard>
       <div className="min-h-screen flex flex-col">
@@ -128,6 +136,7 @@ export function Chat() {
                 ) : (
                   `${remainingQuestions} free questions remaining today`
                 )}
+                3 free questions remaining today
               </div>
               <Button variant="outline" size="sm" onClick={handleSignOut}>
                 <LogOut className="h-4 w-4 mr-2" />
@@ -187,6 +196,11 @@ export function Chat() {
                 {error}
               </div>
             )}
+            <div className="flex-1 bg-white rounded-lg border p-4 mb-4">
+              <div className="h-full flex items-center justify-center text-gray-500">
+                Select a category and start asking questions
+              </div>
+            </div>
 
             <div className="flex gap-4">
               <select
@@ -208,6 +222,9 @@ export function Chat() {
               >
                 <Send className="w-4 h-4 mr-2" />
                 {isLoading ? 'Generating...' : 'Get Question'}
+              <Button className="flex-1" disabled={!selectedCategory}>
+                <Send className="w-4 h-4 mr-2" />
+                Get Question
               </Button>
             </div>
           </div>

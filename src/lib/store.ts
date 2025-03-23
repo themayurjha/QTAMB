@@ -24,6 +24,10 @@ interface AuthState {
   setDailyQuestionsCount: (count: number) => void;
   addMessage: (message: Message) => void;
   incrementQuestionCount: () => void;
+
+interface AuthState {
+  user: User | null;
+  setUser: (user: User | null) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -40,4 +44,5 @@ export const useAuthStore = create<AuthState>((set) => ({
   incrementQuestionCount: () => set((state) => ({
     dailyQuestionsCount: state.dailyQuestionsCount + 1
   }))
+  setUser: (user) => set({ user }),
 }));
